@@ -16,7 +16,15 @@ def validacionMinMAX(valor, valMin, valMax):
   else:
     return False
   
-#validar respuesta
+#funcion que valide valores numericos
+def validacionValNum(valor):
+  try:
+    if valor.isdigit():
+      return True
+    else:
+      return False
+  except:
+     return False
 
 
 #primero se busca ingresar y declarar las variables que almacenaran los datos solicitados.
@@ -25,8 +33,14 @@ produc = input("nombre: ")
 
 #listado de posibles respuestas validas
 respuestas = ["si","s","no","n"]
+#ejecutamos un try para que en caso de error no se detenga el programa
+try:
+  precioUni = float(input("precio unitario: "))
+except:  
+  while validacionValNum(precioUni) != False:
+    print("Error de tipo de dato")
+    precioUni = float(input("Ingrese precio unitario: "))
 
-precioUni = float(input("precio unitario: "))
 #serie de condiciones que llaman las validaciones
 if (validacionMIN(precioUni, 0) == True):
   cantPro = int(input("cantidad: "))
@@ -43,7 +57,7 @@ if (validacionMIN(precioUni, 0) == True):
         if (validacionMinMAX(percentOfert, 0, 100) == True):
           print("waaaa")
       except:
-        print("Error de tipo de dato")        
+        print("Error de tipo de dato")
   else:
     print("valor ingresado incorrecto, intentelo otra vez.")
 else:
