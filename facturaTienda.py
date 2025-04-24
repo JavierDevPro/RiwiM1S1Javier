@@ -1,47 +1,65 @@
-precioUni = 0
-cantProduc = 0
-percentDescuento = 0
+unitPrice = 0
+productQty = 0
+percentDiscount = 0
+discount = False
 #listado de posibles respuestas validas
-respuestas = ["si","s","no","n"]
+answersList = ["si","s","no","n"]
 #funcion que valide valores numericos que sean numeros y valida que las variables cantidad y precio tengan un valor minimo mayor a 0
-def validacionValNumMinMax(valor, proceso):  
+def validacionValNumMinMax(value, process):  
   while True:
     try:#ejecutamos un try para que en caso de error no se detenga el programa
-      match(proceso):
+      match(process):
         case 1:
-          valor = input("Precio unitario: ").strip()
-          nuevoValor = float(valor)
+          value = input("Precio unitario: ").strip()
+          newValue = float(value)
         case 2:
-          valor = input("Cantidad: ").strip()
-          nuevoValor = int(valor)
+          value = input("Cantidad: ").strip()
+          newValue = int(value)
         case 3:
-          valor = input("Porcentaje descuento de (0-100)%: ").strip()
-          nuevoValor = float(valor)
+          value = input("Porcentaje descuento de (0-100)%: ").strip()
+          newValue = float(value)
         case _:
           print("watafak chavales")
     except:
         print("ERROR: El valor ingresado no debe poseer valores alfanumericos.")    
     try:
-      if not(valor.isalpha()):
-        if (proceso == 1 or proceso == 2):
-          if nuevoValor > 0:
+      # if not(value.isalpha()):
+        if (process == 1 or process == 2):
+          if newValue > 0:
              break
           else:
              print("ERROR: El valor ingresado debe ser positivo.")
-        elif (proceso == 3):
-          if (nuevoValor > 0 and nuevoValor <= 100):
+        elif (process == 3):
+          if (newValue > 0 and newValue <= 100):
             break
-        else:          
-          print("ERROR: El valor ingresado debe estar en el rango de (0-100)")
+          else:          
+            print("ERROR: El valor ingresado debe estar en el rango de (0-100)")
     except:
       continue
-  return nuevoValor
+  return newValue
+#Funcion que calcule el total
+def totalCalculation(prodQty, unitP, percent):
+  sub = prodQty * unitP
+  discValue = sub * (percent / 100)
+  tot = sub - discValue
+  return tot
 print("Ingrese los datos del producto que va a comprar.")
-produc = input("nombre: ")
-precioUni = validacionValNumMinMax(precioUni, 1)
-cantProduc = validacionValNumMinMax(cantProduc, 2)
-validDescuento = input("desea implementar descuento? Si/No.")#se toma el valor de la respuesta
-while validDescuento.lower() not in respuestas:#ciclo que valide que el valor este en la lista de respuestas
-  validDescuento = input("Respuesta invalida, desea implementar descuento? Si/No: ")
-if (validDescuento.lower() == "si" or validDescuento.lower() == "s"):
-  percentDescuento = validacionValNumMinMax(percentDescuento, 3)
+productName = input("nombre: ")
+unitPrice = validacionValNumMinMax(unitPrice, 1)
+productQty = validacionValNumMinMax(productQty, 2)
+validDiscount = input("desea implementar descuento? Si/No.")#se toma el valor de la respuesta
+while validDiscount.lower() not in answersList:#ciclo que valide que el valor este en la lista de respuestas
+  validDiscount = input("Respuesta invalida, desea implementar descuento? Si/No: ")
+if (validDiscount.lower() == "si" or validDiscount.lower() == "s"):
+  discount = True
+  percentDiscount = validacionValNumMinMax(percentDiscount, 3)
+print("**********************************************************")
+print("Nuevo producto adquirido!")
+print("producto: ", productName)
+print("cantidad: ", productQty)
+if (discount==True):
+  print("porcentaje descontado: ", percentDiscount,"%")
+  #print("valor descontado: ")
+print("TOTAL: $",totalCalculation(productQty, unitPrice, percentDiscount))
+print("**********************************************************")
+  
